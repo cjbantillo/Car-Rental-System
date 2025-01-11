@@ -30,13 +30,18 @@
       <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
         Password
 
-        <a
+        <v-tooltip text="contact Developer">
+  <template v-slot:activator="{ props }">
+    <a v-bind="props"
           class="text-caption text-decoration-none text-blue"
           href="#"
           rel="noopener noreferrer"
           target="_blank"
         >
           Forgot login password?</a>
+  </template>
+</v-tooltip>
+
       </div>
 
       <v-text-field
