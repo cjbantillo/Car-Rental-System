@@ -1,5 +1,5 @@
 <script setup>
-import adminDashboard from '@/components/template/system/AdminDashboard/AdminDashboardTemplate.vue'
+import adminDashboard from '@/components/template/system/AdminDashboardTemplate.vue'
 </script>
 
 <template>
