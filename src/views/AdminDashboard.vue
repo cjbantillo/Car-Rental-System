@@ -11,5 +11,5 @@
 </template>
 
 <script setup>
-import AdminNavigationLayout from '@/components/AdminLayout/adminNavigationLayout.vue';
+import AdminNavigationLayout from '@/components/AdminLayout/AdminNavigationLayout.vue';
 </script>

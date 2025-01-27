@@ -41,7 +41,7 @@
         <v-card>
           <!-- App Bar -->
           <v-app-bar flat>
-            <v-icon>mdi-home</v-icon>
+            <v-icon> mdi-account-hard-hat-outline</v-icon>
             <span class="ml-2">Cashier</span>
           </v-app-bar>
 
