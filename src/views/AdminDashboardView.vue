@@ -1,3 +1,7 @@
+<script setup>
+import AdminNavigationLayout from '@/components/AdminLayout/AdminNavigationLayout.vue';
+</script>
+
 <template>
 <AdminNavigationLayout>
   <!-- using slot -->
@@ -10,6 +14,3 @@
 </AdminNavigationLayout>
 </template>
 
-<script setup>
-import AdminNavigationLayout from '@/components/AdminLayout/AdminNavigationLayout.vue';
-</script>
