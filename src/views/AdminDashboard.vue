@@ -1,5 +1,5 @@
 <template>
-<admin-layout>
+<AdminNavigationLayout>
   <!-- using slot -->
   <template v-slot:content>
     <v-container>
@@ -7,9 +7,9 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, asperiores!</p>
     </v-container>
   </template>
-</admin-layout>
+</AdminNavigationLayout>
 </template>
 
 <script setup>
-import AdminLayout from '@/components/AdminLayout.vue';
+import AdminNavigationLayout from '@/components/AdminLayout/adminNavigationLayout.vue';
 </script>

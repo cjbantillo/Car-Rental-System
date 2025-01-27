@@ -20,8 +20,8 @@
               title="Account"
             ></v-list-item>
             <v-list-item
-              prepend-icon="mdi-gavel"
-              title="Admin"
+              prepend-icon="mdi-car"
+              title="Add Car / Delete Car"
             ></v-list-item>
           </v-list>
 
