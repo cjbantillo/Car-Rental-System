@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import home from '@/views/AdminDashboardView.vue'
+import admin from '@/views/AdminDashboardView.vue'
 import cashier from '@/views/CashierDashboard.vue'
 import login from '@/views/LoginView.vue'
 import register from '@/views/RegisterView.vue'
@@ -9,27 +9,26 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: home,
+      name: 'login',
+      component:login ,
     },
+    {path: '/register',
+    name: 'register',
+    component: register,
+  },
     {
       path: '/cashier',
       name: 'cashier',
       component: cashier,
     },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: admin,
+    }
+
 
   ],
 })
 
 export default router
-router.addRoute({
-  path: '/login',
-  name: 'login',
-  component: login,
-})
-
-router.addRoute({
-  path: '/register',
-  name: 'register',
-  component: register,
-})
