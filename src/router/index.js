@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import home from '@/views/AdminDashboard.vue'
+import home from '@/views/AdminDashboardView.vue'
 import cashier from '@/views/CashierDashboard.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
