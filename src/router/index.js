@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AdminDashboard from '@/views/AdminDashboard.vue'
+import home from '@/views/AdminDashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,13 +7,9 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: AdminDashboard,
+      component: home,
     },
-    {
-      path: '/admin',
-      name: 'AdminDashboard',
-      component: AdminDashboard,
-    },
+
   ],
 })
 
