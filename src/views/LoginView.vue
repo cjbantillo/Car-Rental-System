@@ -1,60 +1,84 @@
 <script setup>
   import { ref } from 'vue'
 
-  const form = ref(false)
-  const email = ref(null)
-  const password = ref(null)
-  const loading = ref(false)
-
-  function onSubmit () {
-    if (!form.value) return
-    loading.value = true
-    setTimeout(() => (loading.value = false), 2000)
-  }
-  function required (v) {
-    return !!v || 'Field is required'
-  }
+  const visible = ref(false)
 </script>
 
 <template>
-  <v-sheet class="bg-deep-purple pa-12" rounded>
-    <v-card class="mx-auto px-6 py-8" max-width="344">
-      <v-form
-        v-model="form"
-        @submit.prevent="onSubmit"
-      >
-        <v-text-field
-          v-model="email"
-          :readonly="loading"
-          :rules="[required]"
-          class="mb-2"
-          label="Email"
-          clearable
-        ></v-text-field>
+  <div>
+    <v-img
+      class="mx-auto my-6"
+      max-width="228"
+      src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-v3-slim-text-light.svg"
+    ></v-img>
 
-        <v-text-field
-          v-model="password"
-          :readonly="loading"
-          :rules="[required]"
-          label="Password"
-          placeholder="Enter your password"
-          clearable
-        ></v-text-field>
+    <v-card
+      class="mx-auto pa-12 pb-8"
+      elevation="8"
+      max-width="448"
+      rounded="lg"
+    >
+      <div class="text-subtitle-1 text-medium-emphasis">Account</div>
 
-        <br>
+      <v-text-field
+        density="compact"
+        placeholder="Email address"
+        prepend-inner-icon="mdi-email-outline"
+        variant="outlined"
+      ></v-text-field>
 
-        <v-btn
-          :disabled="!form"
-          :loading="loading"
-          color="success"
-          size="large"
-          type="submit"
-          variant="elevated"
-          block
+      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+        Password
+
+        <a
+          class="text-caption text-decoration-none text-blue"
+          href="#"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          Sign In
-        </v-btn>
-      </v-form>
+          Forgot login password?</a>
+      </div>
+
+      <v-text-field
+        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="visible ? 'text' : 'password'"
+        density="compact"
+        placeholder="Enter your password"
+        prepend-inner-icon="mdi-lock-outline"
+        variant="outlined"
+        @click:append-inner="visible = !visible"
+      ></v-text-field>
+
+      <v-card
+        class="mb-12"
+        color="surface-variant"
+        variant="tonal"
+      >
+        <v-card-text class="text-medium-emphasis text-caption">
+          Warning: After 3 consecutive failed login attempts, you account will be temporarily locked for three hours. If you must login now, you can also click "Forgot login password?" below to reset the login password.
+        </v-card-text>
+      </v-card>
+
+      <v-btn
+        class="mb-8"
+        color="blue"
+        size="large"
+        variant="tonal"
+        block
+      >
+        Log In
+      </v-btn>
+
+      <v-card-text class="text-center">
+        <a
+          class="text-blue text-decoration-none"
+          href="#"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
+        </a>
+      </v-card-text>
     </v-card>
-  </v-sheet>
+  </div>
 </template>

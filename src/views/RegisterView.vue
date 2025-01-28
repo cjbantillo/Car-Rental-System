@@ -1,66 +1,166 @@
 <script setup>
-  import { ref } from 'vue'
+import { ref } from 'vue';
+import { supabase } from '../plugins/supabase';
+const visible = ref(false)
+// Refs for form inputs
+const username = ref('');
+const email = ref('');
+const password = ref('');
 
-  const first = ref(null)
-  const last = ref(null)
-  const email = ref(null)
-  const password = ref(null)
-  const terms = ref(false)
+// Refs for error, success, and loading states
+const error = ref('');
+const success = ref('');
+const isLoading = ref(false);
+
+// Function to handle form submission
+const registerUser = async () => {
+  try {
+    // Validate form inputs
+    if (!username.value || !email.value || !password.value) {
+      error.value = 'Please fill out all fields.';
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value)) {
+      error.value = 'Please enter a valid email address.';
+      return;
+    }
+
+    // Validate password strength (at least 6 characters)
+    if (password.value.length < 6) {
+      error.value = 'Password must be at least 6 characters long.';
+      return;
+    }
+
+    // Set loading state
+    isLoading.value = true;
+
+    // Sign up the user using Supabase Auth
+    const { error: authError } = await supabase.auth.signUp({
+      email: email.value,
+      password: password.value,
+      options: {
+        data: {
+          username: username.value,
+        },
+      },
+    });
+
+    if (authError) {
+      throw authError;
+    }
+
+    // Clear form and show success message
+    username.value = '';
+    email.value = '';
+    password.value = '';
+    success.value = 'Registration successful! Please check your email to confirm your account.';
+    error.value = '';
+  } catch (err) {
+    error.value = 'Error during registration: ' + err.message;
+    success.value = '';
+  } finally {
+    // Reset loading state
+    isLoading.value = false;
+  }
+};
 </script>
 
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="344"
-    title="User Registration"
-  >
-    <v-container>
-      <v-text-field
-        v-model="first"
-        color="primary"
-        label="First name"
-        variant="underlined"
-      ></v-text-field>
+  <v-sheet class="flex justify-center items-center h-screen bg-light-gray ">
+    <v-card class="mx-auto mt-10" max-width="400" elevation="5" rounded="lg">
+      <v-card-title class="text-center text-teal text-h5 font-weight-bold py-4">
+        User Registration
+      </v-card-title>
 
-      <v-text-field
-        v-model="last"
-        color="primary"
-        label="Last name"
-        variant="underlined"
-      ></v-text-field>
+      <v-container>
+        <!-- Username Input -->
+        <v-text-field
+          v-model="username"
+          color="teal"
+          label="Username"
+          variant="outlined"
+          :disabled="isLoading"
+          aria-label="Username"
+        ></v-text-field>
 
-      <v-text-field
-        v-model="email"
-        color="primary"
-        label="Email"
-        variant="underlined"
-      ></v-text-field>
+        <!-- Email Input -->
+        <v-text-field
+          v-model="email"
+          color="teal"
+          label="Email"
+          variant="outlined"
+          :disabled="isLoading"
+          aria-label="Email"
+        ></v-text-field>
 
-      <v-text-field
-        v-model="password"
-        color="primary"
-        label="Password"
-        placeholder="Enter your password"
-        variant="underlined"
-      ></v-text-field>
+        <!-- Password Input -->
+        <v-text-field
+        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+        :type="visible ? 'text' : 'password'"
+        density="compact"
+          v-model="password"
+          color="teal"
+          label="Password"
+          placeholder="Enter your password"
+          variant="outlined"
+          prepend-inner-icon="mdi-lock-outline"
+        @click:append-inner="visible = !visible"
+          :disabled="isLoading"
+          aria-label="Password"
+        ></v-text-field>
+      </v-container>
 
-      <v-checkbox
-        v-model="terms"
-        color="secondary"
-        label="I agree to site terms and conditions"
-      ></v-checkbox>
-    </v-container>
+      <v-divider></v-divider>
 
-    <v-divider></v-divider>
+      <!-- Submit Button -->
+      <v-card-actions class="px-4 py-3">
+        <v-spacer></v-spacer>
+        <v-btn
+          color="coral"
+          @click="registerUser"
+          :loading="isLoading"
+          :disabled="isLoading"
+          aria-label="Complete Registration"
+        >
+          Complete Registration
+          <v-icon icon="mdi-chevron-right" end></v-icon>
+        </v-btn>
+      </v-card-actions>
 
-    <v-card-actions>
-      <v-spacer></v-spacer>
-
-      <v-btn color="success">
-        Complete Registration
-
-        <v-icon icon="mdi-chevron-right" end></v-icon>
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      <!-- Error and Success Messages -->
+      <v-alert v-if="error" type="error" class="mx-4 mb-4">{{ error }}</v-alert>
+      <v-alert v-if="success" type="success" class="mx-4 mb-4">{{ success }}</v-alert>
+    </v-card>
+  </v-sheet>
 </template>
+
+<style scope>
+/* Custom CSS for color scheme */
+.bg-light-gray {
+  background-color: #f5f5f5;
+}
+
+.text-teal {
+  color: #008080;
+}
+
+.bg-teal {
+  background-color: #008080;
+}
+
+.bg-coral {
+  background-color: #ff7f50;
+}
+
+.v-btn--success {
+  background-color: #ff7f50 !important;
+  color: white !important;
+}
+
+.v-text-field--outlined:focus-within .v-input__control {
+  border-color: #008080 !important;
+}
+</style>
