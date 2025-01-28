@@ -1,9 +1,12 @@
 <script setup>
 import { ref } from 'vue';
 import { supabase } from '../plugins/supabase';
-const visible = ref(false)
+
+const visible = ref(false);
+
 // Refs for form inputs
-const username = ref('');
+const firstName = ref('');
+const lastName = ref('');
 const email = ref('');
 const password = ref('');
 
@@ -16,7 +19,7 @@ const isLoading = ref(false);
 const registerUser = async () => {
   try {
     // Validate form inputs
-    if (!username.value || !email.value || !password.value) {
+    if (!firstName.value || !lastName.value || !email.value || !password.value) {
       error.value = 'Please fill out all fields.';
       return;
     }
@@ -43,7 +46,9 @@ const registerUser = async () => {
       password: password.value,
       options: {
         data: {
-          username: username.value,
+          first_name: firstName.value, // Add first name to user metadata
+          last_name: lastName.value,   // Add last name to user metadata
+          role: 'admin', // Add a role field to user metadata admin/user
         },
       },
     });
@@ -53,7 +58,8 @@ const registerUser = async () => {
     }
 
     // Clear form and show success message
-    username.value = '';
+    firstName.value = '';
+    lastName.value = '';
     email.value = '';
     password.value = '';
     success.value = 'Registration successful! Please check your email to confirm your account.';
@@ -67,23 +73,32 @@ const registerUser = async () => {
   }
 };
 </script>
-
 <template>
-  <v-sheet class="flex justify-center items-center h-screen bg-light-gray ">
+  <v-sheet class="flex justify-center items-center h-screen bg-light-gray">
     <v-card class="mx-auto mt-10" max-width="400" elevation="5" rounded="lg">
       <v-card-title class="text-center text-teal text-h5 font-weight-bold py-4">
         User Registration
       </v-card-title>
 
       <v-container>
-        <!-- Username Input -->
+        <!-- First Name Input -->
         <v-text-field
-          v-model="username"
+          v-model="firstName"
           color="teal"
-          label="Username"
+          label="First Name"
           variant="outlined"
           :disabled="isLoading"
-          aria-label="Username"
+          aria-label="First Name"
+        ></v-text-field>
+
+        <!-- Last Name Input -->
+        <v-text-field
+          v-model="lastName"
+          color="teal"
+          label="Last Name"
+          variant="outlined"
+          :disabled="isLoading"
+          aria-label="Last Name"
         ></v-text-field>
 
         <!-- Email Input -->
@@ -98,16 +113,16 @@ const registerUser = async () => {
 
         <!-- Password Input -->
         <v-text-field
-        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="visible ? 'text' : 'password'"
-        density="compact"
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+          density="compact"
           v-model="password"
           color="teal"
           label="Password"
           placeholder="Enter your password"
           variant="outlined"
           prepend-inner-icon="mdi-lock-outline"
-        @click:append-inner="visible = !visible"
+          @click:append-inner="visible = !visible"
           :disabled="isLoading"
           aria-label="Password"
         ></v-text-field>
@@ -136,31 +151,3 @@ const registerUser = async () => {
     </v-card>
   </v-sheet>
 </template>
-
-<style scope>
-/* Custom CSS for color scheme */
-.bg-light-gray {
-  background-color: #f5f5f5;
-}
-
-.text-teal {
-  color: #008080;
-}
-
-.bg-teal {
-  background-color: #008080;
-}
-
-.bg-coral {
-  background-color: #ff7f50;
-}
-
-.v-btn--success {
-  background-color: #ff7f50 !important;
-  color: white !important;
-}
-
-.v-text-field--outlined:focus-within .v-input__control {
-  border-color: #008080 !important;
-}
-</style>
