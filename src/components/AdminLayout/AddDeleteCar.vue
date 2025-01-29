@@ -15,9 +15,15 @@ onMounted(async () => {
 })
 
 async function fetchCars() {
-  const { data, error } = await supabase.from('car_details').select('*')
-  if (error) console.error('Error fetching cars:', error)
-  else cars.value = data
+  // const { data, error } = await supabase.from('car_details').select('*')
+  // if (error) console.error('Error fetching cars:', error)
+  // else cars.value = data
+  const { data, error } = await supabase.from('car_details').select('*');
+  if (error) console.error('Error fetching cars:', error);
+  else {
+    console.log("Fetched Cars:", data);  // Debugging
+    cars.value = data;
+  }
 }
 
 async function addCar() {
@@ -80,7 +86,3 @@ async function deleteCar(id) {
     </v-row>
   </v-container>
 </template>
-
-<style scoped>
-/* Add your custom styles here */
-</style>

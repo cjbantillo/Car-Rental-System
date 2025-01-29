@@ -3,8 +3,8 @@
     <!-- Navigation Drawer -->
     <v-navigation-drawer class="bg-deep-purple" theme="dark" permanent>
       <!-- Navigation Items -->
-      <v-list color="transparent">
-        <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard"></v-list-item>
+      <v-list>
+        <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard" to="/admin"></v-list-item>
         <v-list-item prepend-icon="mdi-account-box" title="Account"></v-list-item>
         <v-list-item prepend-icon="mdi-car" title="Add Car / Delete Car" to="/add-delete-car"></v-list-item>
       </v-list>

@@ -1,9 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AdminDashboardView from '@/views/AdminDashboardView.vue';
-import CashierDashboard from '@/views/CashierDashboard.vue';
+
+// Auth Folder Views
 import LoginView from '@/views/Auth/LoginView.vue';
 import RegisterView from '@/views/Auth/RegisterView.vue';
-import AddDeleteCar from '@/components/AdminLayout/AddDeleteCar.vue';
+
+// Cashier
+import CashierDashboard from '@/views/CashierDashboard.vue';
+
+// Admin
+import AddDeleteCar from '@/views/AddDeleteCarView.vue';
+import AdminDashboardView from '@/views/AdminDashboardView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
