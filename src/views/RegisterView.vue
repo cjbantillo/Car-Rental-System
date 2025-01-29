@@ -1,44 +1,48 @@
 <script setup>
-import { ref } from 'vue';
-import { supabase } from '../plugins/supabase';
+import { ref } from 'vue'
+import { supabase } from '../plugins/supabase'
+import { useRouter } from 'vue-router' // Import useRouter from vue-router
 
-const visible = ref(false);
+const visible = ref(false)
 
 // Refs for form inputs
-const firstName = ref('');
-const lastName = ref('');
-const email = ref('');
-const password = ref('');
+const firstName = ref('')
+const lastName = ref('')
+const email = ref('')
+const password = ref('')
 
 // Refs for error, success, and loading states
-const error = ref('');
-const success = ref('');
-const isLoading = ref(false);
+const error = ref('')
+const success = ref('')
+const isLoading = ref(false)
+
+// Initialize the router
+const router = useRouter()
 
 // Function to handle form submission
 const registerUser = async () => {
   try {
     // Validate form inputs
     if (!firstName.value || !lastName.value || !email.value || !password.value) {
-      error.value = 'Please fill out all fields.';
-      return;
+      error.value = 'Please fill out all fields.'
+      return
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email.value)) {
-      error.value = 'Please enter a valid email address.';
-      return;
+      error.value = 'Please enter a valid email address.'
+      return
     }
 
     // Validate password strength (at least 6 characters)
     if (password.value.length < 6) {
-      error.value = 'Password must be at least 6 characters long.';
-      return;
+      error.value = 'Password must be at least 6 characters long.'
+      return
     }
 
     // Set loading state
-    isLoading.value = true;
+    isLoading.value = true
 
     // Sign up the user using Supabase Auth
     const { error: authError } = await supabase.auth.signUp({
@@ -47,32 +51,38 @@ const registerUser = async () => {
       options: {
         data: {
           first_name: firstName.value, // Add first name to user metadata
-          last_name: lastName.value,   // Add last name to user metadata
-          role: 'admin', // Add a role field to user metadata admin/user
+          last_name: lastName.value, // Add last name to user metadata
+          role: 'admin', // Add a role field to user metadata
         },
       },
-    });
+    })
 
     if (authError) {
-      throw authError;
+      throw authError
     }
 
     // Clear form and show success message
-    firstName.value = '';
-    lastName.value = '';
-    email.value = '';
-    password.value = '';
-    success.value = 'Registration successful! Please check your email to confirm your account.';
-    error.value = '';
+    firstName.value = ''
+    lastName.value = ''
+    email.value = ''
+    password.value = ''
+    success.value = 'Registration successful! Please check your email to confirm your account.'
+    error.value = ''
+
+    // Redirect to the login page after 3 seconds
+    setTimeout(() => {
+      router.push({ name: 'login' }) // Replace 'Login' with the name of your login route
+    }, 3000)
   } catch (err) {
-    error.value = 'Error during registration: ' + err.message;
-    success.value = '';
+    error.value = 'Error during registration: ' + err.message
+    success.value = ''
   } finally {
     // Reset loading state
-    isLoading.value = false;
+    isLoading.value = false
   }
-};
+}
 </script>
+
 <template>
   <v-sheet class="flex justify-center items-center h-screen bg-light-gray">
     <v-card class="mx-auto mt-10" max-width="400" elevation="5" rounded="lg">
