@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { supabase } from '../plugins/supabase'
+import { supabase } from '../../plugins/supabase'
 import { useRouter } from 'vue-router' // Import useRouter from vue-router
 
 const visible = ref(false)
