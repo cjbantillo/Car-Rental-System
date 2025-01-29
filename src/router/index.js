@@ -10,6 +10,7 @@ import CashierDashboard from '@/views/CashierDashboard.vue';
 // Admin
 import AddDeleteCar from '@/views/AddDeleteCarView.vue';
 import AdminDashboardView from '@/views/AdminDashboardView.vue';
+import AdminAccountView from '@//views/AdminAccountView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/add-delete-car',
       name: 'add-delete-car',
       component: AddDeleteCar,
+    },
+    {
+      path: '/admin-account-view',
+      name: 'admin-account-view',
+      component: AdminAccountView,
     },
   ],
 });
