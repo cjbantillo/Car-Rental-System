@@ -1,12 +1,8 @@
 <template>
   <v-app>
-    <!-- Main Layout -->
-    <v-row>
-      <!-- Sidebar Column -->
-      <v-col cols="3">
         <v-navigation-drawer class="bg-deep-purple" theme="dark" permanent>
           <!-- Navigation Items -->
-          <v-list color="transparent">
+          <v-list >
             <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard" to="/cashier"></v-list-item>
             <v-list-item prepend-icon="mdi-account-box" title="Account" to="/cashier-account-view"></v-list-item>
             <v-list-item prepend-icon="mdi-plus" title="Add Renter" to="/cashier-add-renter-view"></v-list-item>
@@ -19,12 +15,9 @@
             </div>
           </template>
         </v-navigation-drawer>
-      </v-col>
 
-      <!-- Main Content Column -->
-      <v-col cols="9">
-        <v-card>
-          <!-- App Bar -->
+
+        <!-- App Bar and Main Content -->
           <v-app-bar flat>
             <v-icon> mdi-account-hard-hat-outline</v-icon>
             <span class="ml-2">Cashier</span>
@@ -32,11 +25,10 @@
 
           <!-- Main Content -->
           <v-main>
-            <slot name="content"></slot>
-          </v-main>
-        </v-card>
-      </v-col>
-    </v-row>
+      <v-container fluid>
+        <slot name="content"></slot>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
