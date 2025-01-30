@@ -6,7 +6,7 @@
       <v-list>
         <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard" to="/admin"></v-list-item>
         <v-list-item prepend-icon="mdi-account-box" title="Account" to="/admin-account-view"></v-list-item>
-        <v-list-item prepend-icon="mdi-car" title="Add Car / Delete Car" to="/add-delete-car"></v-list-item>
+        <v-list-item prepend-icon="mdi-car" title="Add Car / Delete Car" to="/add-delete-car-view"></v-list-item>
       </v-list>
 
       <!-- Logout Button -->
