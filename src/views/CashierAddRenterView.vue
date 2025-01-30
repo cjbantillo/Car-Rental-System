@@ -9,3 +9,4 @@ import CashierAddRenter from '@/components/CashierLayout/CashierAddRenterLayout.
       <CashierAddRenter />
     </template>
   </CashierNavigationLayout>
+</template>

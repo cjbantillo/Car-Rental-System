@@ -1,6 +1,6 @@
 <script setup>
 import CashierNavigationLayout from '@/components/CashierLayout/CashierNavigationLayout.vue';
-import CashierAccountOption from '@/components/CashierLayout/CashierAccountOption.vue';
+import CashierAccountOption from '@/components/CashierLayout/CashierAccountOptionLayout.vue';
 </script>
 
 <template>

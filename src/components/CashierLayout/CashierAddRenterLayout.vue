@@ -18,7 +18,7 @@
         <label for="returnDate">Return Date:</label>
         <input type="date" id="returnDate" v-model="returnDate" required />
       </div>
-      <button type="submit" :disabled
+      <button type="submit" :disabled="!renterName || !renterContact || !rentedDate || !returnDate"></button>
     </form>
   </div>
 </template>
