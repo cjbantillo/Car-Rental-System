@@ -1,92 +1,26 @@
-<script setup>
-import { ref } from 'vue'
-import { supabase } from '../../plugins/supabase'
-import { useRouter } from 'vue-router' // Import useRouter from vue-router
-
-const visible = ref(false)
-
-// Refs for form inputs
-const username = ref('')
-const password = ref('')
-
-// Refs for error, success, and loading states
-const error = ref('')
-const success = ref('')
-const isLoading = ref(false)
-
-// Initialize the router
-const router = useRouter()
-
-// Function to handle form submission
-const registerUser = async () => {
-  try {
-    // Validate form inputs
-    if (!username.value || !password.value) {
-      error.value = 'Please fill out all fields.'
-      return
-    }
-
-    // Validate password strength (at least 6 characters)
-    if (password.value.length < 6) {
-      error.value = 'Password must be at least 6 characters long.'
-      return
-    }
-
-    // Set loading state
-    isLoading.value = true
-
-    // Sign up the user using Supabase Auth
-    const { error: authError } = await supabase.auth.signUp({
-      username: username.value,
-      password: password.value,
-      options: {
-        data: {
-        username: username.value, // Add first name to user metadata
-          role: 'admin', // Add a role field to user metadata
-        },
-      },
-    })
-
-    if (authError) {
-      throw authError
-    }
-
-    // Clear form and show success message
-    username.value = ''
-    password.value = ''
-    success.value = 'Registration successful! Please check your email to confirm your account.'
-    error.value = ''
-
-    // Redirect to the login page after 3 seconds
-    setTimeout(() => {
-      router.push({ name: 'login' }) // Replace 'Login' with the name of your login route
-    }, 3000)
-  } catch (err) {
-    error.value = 'Error during registration: ' + err.message
-    success.value = ''
-  } finally {
-    // Reset loading state
-    isLoading.value = false
-  }
-}
-</script>
-
 <template>
-  <v-sheet class="flex justify-center items-center h-screen bg-light-gray">
-    <v-card class="mx-auto mt-10" max-width="400" elevation="5" rounded="lg">
+  <v-sheet class="d-flex justify-center align-center h-screen bg-light-gray">
+    <v-card class="mx-auto" max-width="400" elevation="5" rounded="lg">
       <v-card-title class="text-center text-teal text-h5 font-weight-bold py-4">
         User Registration
       </v-card-title>
 
       <v-container>
-        <!-- First Name Input -->
+        <!-- Username Input -->
         <v-text-field
           v-model="username"
           color="teal"
-          label="username"
+          label="Username"
           variant="outlined"
           :disabled="isLoading"
-          aria-label="First Name"
+          aria-label="Username"
+        ></v-text-field>
+        <v-text-field
+          v-model="email"
+          variant="outlined"
+          :disabled="isLoading"
+          aria-label="Username"
+          hidden
         ></v-text-field>
 
         <!-- Password Input -->
@@ -129,3 +63,84 @@ const registerUser = async () => {
     </v-card>
   </v-sheet>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import { supabase } from '../../plugins/supabase'
+import { useRouter } from 'vue-router'
+
+// Refs for form inputs and states
+const visible = ref(false)
+const email = ref('')
+const username = ref('')
+const password = ref('')
+const error = ref('')
+const success = ref('')
+const isLoading = ref(false)
+
+// Initialize the router
+const router = useRouter()
+
+// Function to handle form submission
+const registerUser = async () => {
+  try {
+    // Validate form inputs
+    if (!username.value || !password.value) {
+      error.value = 'Please fill out all fields.'
+      return
+    }
+
+    // Validate password strength (at least 6 characters)
+    if (password.value.length < 6) {
+      error.value = 'Password must be at least 6 characters long.'
+      return
+    }
+
+    // Set loading state
+    isLoading.value = true
+
+    // Sign up the user using Supabase Auth
+    const { error: authError } = await supabase.auth.signUp({
+      username: username.value,
+      password: password.value,
+      options: {
+        data: {
+          username: username.value,
+          role: 'admin', // Add a role field to user metadata
+        },
+      },
+    })
+
+    if (authError) {
+      throw authError
+    }
+
+    // Clear form and show success message
+    username.value = ''
+    password.value = ''
+    success.value = 'Registration successful! Please check your email to confirm your account.'
+    error.value = ''
+
+    // Redirect to the login page after 3 seconds
+    setTimeout(() => {
+      router.push({ name: 'login' }) // Replace 'login' with the name of your login route
+    }, 3000)
+  } catch (err) {
+    error.value = 'Error during registration: ' + err.message
+    success.value = ''
+  } finally {
+    // Reset loading state
+    isLoading.value = false
+  }
+}
+</script>
+
+<style scoped>
+.bg-light-gray {
+  background-color: #f5f5f5; /* Light gray background */
+}
+
+.text-teal {
+  color: #008080; /* Teal color for text */
+}
+</style>

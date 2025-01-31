@@ -1,7 +1,7 @@
 
 <script setup>
 import AdminNavigationLayout from '@/components/AdminLayout/AdminNavigationLayout.vue'
-import AddDeleteCar from '@/components/AdminLayout/AddDeleteCar.vue'
+import AddDeleteCar from '@/components/AdminLayout/ManageCar.vue'
 
 
 

@@ -84,47 +84,31 @@ const registerUser = async () => {
 </script>
 
 <template>
-  <v-sheet class="flex justify-center items-center h-screen bg-light-gray">
+  <v-sheet class="flex justify-center items-center bg-light-gray">
     <v-card class="mx-auto mt-10" max-width="400" elevation="5" rounded="lg">
       <v-card-title class="text-center text-teal text-h5 font-weight-bold py-4">
-        User Registration
+        Register Cashier Account
       </v-card-title>
 
       <v-container>
         <!-- First Name Input -->
         <v-text-field
-          v-model="firstName"
+          prepend-inner-icon="mdi-account"
+          v-model="username"
           color="teal"
-          label="First Name"
+          label="Username"
           variant="outlined"
           :disabled="isLoading"
-          aria-label="First Name"
-        ></v-text-field>
-
-        <!-- Last Name Input -->
-        <v-text-field
-          v-model="lastName"
-          color="teal"
-          label="Last Name"
-          variant="outlined"
-          :disabled="isLoading"
-          aria-label="Last Name"
-        ></v-text-field>
-
-        <!-- Email Input -->
-        <v-text-field
-          v-model="email"
-          color="teal"
-          label="Email"
-          variant="outlined"
-          :disabled="isLoading"
-          aria-label="Email"
+          aria-label="UserName"
+          rounded
+          density="compact"
         ></v-text-field>
 
         <!-- Password Input -->
         <v-text-field
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
           :type="visible ? 'text' : 'password'"
+          rounded
           density="compact"
           v-model="password"
           color="teal"
@@ -148,9 +132,9 @@ const registerUser = async () => {
           @click="registerUser"
           :loading="isLoading"
           :disabled="isLoading"
-          aria-label="Complete Registration"
+          aria-label="Register"
         >
-          Complete Registration
+          Register
           <v-icon icon="mdi-chevron-right" end></v-icon>
         </v-btn>
       </v-card-actions>
