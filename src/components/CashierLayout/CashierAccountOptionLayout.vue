@@ -1,98 +1,69 @@
 <template>
-  <div>
-    <h1>Cashier Account Information</h1>
-    <form @submit.prevent="updateAccountInfo">
-      <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" readonly />
-      </div>
-      <div>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" v-model="firstName" />
-      </div>
-      <div>
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" v-model="lastName" />
-      </div>
-      <button type="submit">Save Changes</button>
-    </form>
+  <v-container class="account-container">
+    <!-- Account Information Form -->
+    <v-card class="pa-6 mx-auto mb-6" max-width="900" elevation="4">
+      <v-card-title class="text-h4 mb-4" style="color: #008080;">
+        Cashier Account Information
+      </v-card-title>
 
-    <div v-if="showConfirmation" class="confirmation-popup">
-      <p>Are you sure you want to proceed with changing your account information?</p>
-      <button @click="confirmChanges">Yes</button>
-      <button @click="cancelChanges">No</button>
-    </div>
-  </div>
+      <v-form @submit.prevent="updateAccountInfo" class="account-form">
+        <v-text-field
+          v-model="email"
+          label="Email"
+          type="email"
+          readonly
+          outlined
+          class="mb-4"
+          bg-color="#f5f5f5"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="fullName"
+          label="Full Name"
+          outlined
+          readonly
+          class="mb-4"
+          bg-color="#f5f5f5"
+        ></v-text-field>
+
+      </v-form>
+    </v-card>
+
+  </v-container>
 </template>
 
-<script>
-import { supabase } from '../../plugins/supabase';
+<script setup>
+import { ref } from 'vue';
 
-export default {
-  data() {
-    return {
-      email: '',
-      firstName: '',
-      lastName: '',
-      showConfirmation: false,
-    };
-  },
-  async created() {
-    await this.fetchUserData();
-  },
-  methods: {
-    async fetchUserData() {
-      const user = supabase.auth.user();
-      if (user) {
-        this.email = user.email;
-        // Fetch additional user data (first name, last name) from your database
-        const { data } = await supabase
-          .from('auth.users')
-          .select('first_name, last_name')
-          .eq('id', user.id)
-          .single();
+const email = ref('cashier@example.com');
 
-        if (data) {
-          this.firstName = data.first_name;
-          this.lastName = data.last_name;
-        }
-      }
-    },
-    updateAccountInfo() {
-      this.showConfirmation = true;
-    },
-    async confirmChanges() {
-      const user = supabase.auth.user();
-      if (user) {
-        const { error } = await supabase
-          .from('auth.users')
-          .update({ first_name: this.firstName, last_name: this.lastName })
-          .eq('id', user.id);
+const fullName = ref('John Doe');
 
-        if (!error) {
-          alert('Account information updated successfully!');
-        } else {
-          alert('Error updating account information.');
-        }
-      }
-      this.showConfirmation = false;
-    },
-    cancelChanges() {
-      this.showConfirmation = false;
-    },
-  },
+const showConfirmation = ref(false);
+
+
+const updateAccountInfo = () => {
+  showConfirmation.value = true;
 };
+
+
 </script>
 
 <style scoped>
-.confirmation-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.account-container {
+  background-color: #f5f5f5;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* Custom Vuetify color overrides */
+:deep(.v-btn--teal) {
+  background-color: #008080 !important;
+  color: white !important;
+}
+
+:deep(.v-btn--coral) {
+  background-color: #ff7f50 !important;
+  color: white !important;
 }
 </style>
