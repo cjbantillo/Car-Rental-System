@@ -1,4 +1,5 @@
 <template>
+  <!-- logs for tracking sa admin   -->
   <v-card class="renters-widget">
     <v-card-title class="headline">Car Renters Information</v-card-title>
     <v-card-text>

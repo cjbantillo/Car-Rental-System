@@ -101,7 +101,7 @@ import { supabase } from '@/plugins/supabase'
 import RegisterForm from '../AssignCashier/RegisterForm.vue'
 const username = ref('')
 const showConfirmation = ref(false)
-
+const visible = ref(false)
 // Fetch user data on component mount
 onMounted(async () => {
   await fetchUserData()

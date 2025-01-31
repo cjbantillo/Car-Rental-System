@@ -1,30 +1,36 @@
 <template>
   <v-app>
-        <v-navigation-drawer class="bg-deep-purple" theme="dark" permanent>
-          <!-- Navigation Items -->
-          <v-list >
-            <v-list-item prepend-icon="mdi-view-dashboard" title="Dashboard" to="/cashier"></v-list-item>
-            <v-list-item prepend-icon="mdi-account-box" title="Account" to="/cashier-account-view"></v-list-item>
-            <v-list-item prepend-icon="mdi-plus" title="Add Renter" to="/cashier-add-renter-view"></v-list-item>
-          </v-list>
+    <v-navigation-drawer class="bg-deep-purple" theme="dark" permanent>
+      <!-- Navigation Items -->
+      <v-list>
+        <v-list-item
+          prepend-icon="mdi-view-dashboard"
+          title="Dashboard"
+          to="/cashier"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-account-box"
+          title="Account"
+          to="/cashier-account-view"
+        ></v-list-item>
+      </v-list>
 
-          <!-- Logout Button -->
-          <template v-slot:append>
-            <div class="pa-2">
-              <v-btn block> Logout </v-btn>
-            </div>
-          </template>
-        </v-navigation-drawer>
+      <!-- Logout Button -->
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block> Logout </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
 
+    <!-- App Bar and Main Content -->
+    <v-app-bar flat>
+      <v-icon> mdi-network-pos</v-icon>
+      <span class="ml-2">Cashier</span>
+    </v-app-bar>
 
-        <!-- App Bar and Main Content -->
-          <v-app-bar flat>
-            <v-icon> mdi-account-hard-hat-outline</v-icon>
-            <span class="ml-2">Cashier</span>
-          </v-app-bar>
-
-          <!-- Main Content -->
-          <v-main>
+    <!-- Main Content -->
+    <v-main>
       <v-container fluid>
         <slot name="content"></slot>
       </v-container>
