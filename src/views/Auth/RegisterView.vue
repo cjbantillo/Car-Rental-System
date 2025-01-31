@@ -6,9 +6,7 @@ import { useRouter } from 'vue-router' // Import useRouter from vue-router
 const visible = ref(false)
 
 // Refs for form inputs
-const firstName = ref('')
-const lastName = ref('')
-const email = ref('')
+const username = ref('')
 const password = ref('')
 
 // Refs for error, success, and loading states
@@ -23,15 +21,8 @@ const router = useRouter()
 const registerUser = async () => {
   try {
     // Validate form inputs
-    if (!firstName.value || !lastName.value || !email.value || !password.value) {
+    if (!username.value || !password.value) {
       error.value = 'Please fill out all fields.'
-      return
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email.value)) {
-      error.value = 'Please enter a valid email address.'
       return
     }
 
@@ -46,12 +37,11 @@ const registerUser = async () => {
 
     // Sign up the user using Supabase Auth
     const { error: authError } = await supabase.auth.signUp({
-      email: email.value,
+      username: username.value,
       password: password.value,
       options: {
         data: {
-          first_name: firstName.value, // Add first name to user metadata
-          last_name: lastName.value, // Add last name to user metadata
+        username: username.value, // Add first name to user metadata
           role: 'admin', // Add a role field to user metadata
         },
       },
@@ -62,9 +52,7 @@ const registerUser = async () => {
     }
 
     // Clear form and show success message
-    firstName.value = ''
-    lastName.value = ''
-    email.value = ''
+    username.value = ''
     password.value = ''
     success.value = 'Registration successful! Please check your email to confirm your account.'
     error.value = ''
@@ -93,32 +81,12 @@ const registerUser = async () => {
       <v-container>
         <!-- First Name Input -->
         <v-text-field
-          v-model="firstName"
+          v-model="username"
           color="teal"
-          label="First Name"
+          label="username"
           variant="outlined"
           :disabled="isLoading"
           aria-label="First Name"
-        ></v-text-field>
-
-        <!-- Last Name Input -->
-        <v-text-field
-          v-model="lastName"
-          color="teal"
-          label="Last Name"
-          variant="outlined"
-          :disabled="isLoading"
-          aria-label="Last Name"
-        ></v-text-field>
-
-        <!-- Email Input -->
-        <v-text-field
-          v-model="email"
-          color="teal"
-          label="Email"
-          variant="outlined"
-          :disabled="isLoading"
-          aria-label="Email"
         ></v-text-field>
 
         <!-- Password Input -->
