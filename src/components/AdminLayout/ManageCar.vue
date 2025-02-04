@@ -1,48 +1,51 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { supabase } from '@/plugins/supabase' // Update this path to match your supabase.js location
-import { VTable } from 'vuetify/components'
+import { ref, onMounted } from 'vue';
 
+// Local state for new car input
 const newCar = ref({
   car_template_number: '',
   car_model: '',
-})
+});
 
-const cars = ref([])
+// Local state for cars list
+const cars = ref([
+  { id: 1, car_template_number: 'T001', car_model: 'Model X' },
+  { id: 2, car_template_number: 'T002', car_model: 'Model Y' },
+]);
 
-onMounted(async () => {
-  await fetchCars()
-})
+// Simulate fetching cars (local data)
+onMounted(() => {
+  fetchCars();
+});
 
-async function fetchCars() {
-  // const { data, error } = await supabase.from('car_details').select('*')
-  // if (error) console.error('Error fetching cars:', error)
-  // else cars.value = data
-  const { data, error } = await supabase.from('car_details').select('*');
-  if (error) console.error('Error fetching cars:', error);
-  else {
-    console.log("Fetched Cars:", data);  // Debugging
-    cars.value = data;
-  }
+// Fetch cars (local data)
+function fetchCars() {
+  console.log("Fetched Cars:", cars.value); // Debugging
 }
 
-async function addCar() {
-  const { data, error } = await supabase.from('car_details').insert([newCar.value])
-  if (error) {
-    console.error('Error adding car:', error)
-  } else {
-    cars.value.push(data[0])
-    newCar.value = { car_template_number: '', car_model: '' }
+// Add a new car
+function addCar() {
+  if (!newCar.value.car_template_number || !newCar.value.car_model) {
+    alert('Please fill in all fields.');
+    return;
   }
+
+  const newId = cars.value.length + 1; // Generate a new ID
+  const car = {
+    id: newId,
+    car_template_number: newCar.value.car_template_number,
+    car_model: newCar.value.car_model,
+  };
+
+  cars.value.push(car); // Add the new car to the list
+  newCar.value = { car_template_number: '', car_model: '' }; // Reset the form
+  console.log("Added Car:", car); // Debugging
 }
 
-async function deleteCar(id) {
-  const { error } = await supabase.from('car_details').delete().match({ id })
-  if (error) {
-    console.error('Error deleting car:', error)
-  } else {
-    cars.value = cars.value.filter((car) => car.id !== id)
-  }
+// Delete a car
+function deleteCar(id) {
+  cars.value = cars.value.filter((car) => car.id !== id);
+  console.log("Deleted Car with ID:", id); // Debugging
 }
 </script>
 
@@ -86,3 +89,7 @@ async function deleteCar(id) {
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+/* Add custom styles if needed */
+</style>
